@@ -1,0 +1,87 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<head>
+    <style>
+        body {
+            font-family: 'Alegreya', sans-serif; 
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 36px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        #about-us {
+            padding: 50px;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        #staff {
+            text-align: center;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        #about-us img {
+            width: 450px;
+            height: 250px;
+            float: left;
+            margin-right: 20px;
+        }
+
+        .barber img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+        }
+        .barber {
+            display: inline-block;
+            margin-right: 70px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="about-us">
+            <img src="{% static 'images/barbershop.jpg' %}" alt="Barbershop Image">
+            <h2>About Us</h2>
+            <p>Welcome to the finest barbershop in town. We take pride in providing top-notch grooming services that leave you looking and feeling your best. Our talented team of barbers is dedicated to delivering the best haircut and grooming experience.</p>
+        </div>
+
+        <section id="staff">
+            <h2>Our Staff</h2>
+            {% for barber in barbers %}
+                <div class="barber">
+                    <img src="{{ barber.photo.url }}" alt="Barber 1">
+                    <h3>{{ barber.name }}</h3>
+                    <p>Master Barber</p>
+                </div>
+            {% endfor %}
+        </section>
+    </div>
+</body>
+
+{% endblock content %}

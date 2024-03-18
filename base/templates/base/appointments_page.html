@@ -1,0 +1,33 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<head>
+    <style>
+        body {
+            font-family: 'Alegreya', sans-serif; 
+            text-align: center;
+        }
+        .record-info {
+            border: 1px solid #ccc;
+            padding: 20px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Your appointments</h1>
+    {% for appointment in appointments %}
+        <div class="record-info">
+            <p><strong>Barbershop: </strong>{{appointment.barbershop_name}}</p>
+            <p><strong>Barber: </strong>{{appointment.barber_name}}</p>
+            <p><strong>Service: </strong>{{appointment.service_name}}</p>
+            <p><strong>Service price: </strong>{{appointment.service_price}}</p>
+            <p><strong>Appointment date: </strong>{{appointment.selected_date}}</p>
+            <p><strong>Appointment time: </strong>{{appointment.selected_time}}</p>
+        </div>
+    {% endfor %}
+</body>
+
+{% endblock content %}

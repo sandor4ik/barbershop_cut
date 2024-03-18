@@ -1,0 +1,101 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<head>
+    <style>
+        .form-container {
+            font-family: 'Alegreya', sans-serif;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        input[type="email"],
+        input[type="password"],
+        input[type="text"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        input[type="submit"] {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #333;
+        }
+
+        p {
+            margin-top: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .btn {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form-container">
+        <form method="POST" action="">
+            {% csrf_token %}
+
+            {% if page == 'login' %}
+                <label>Email</label>
+                <input type="email" name="email" placeholder="Enter Your Email" />
+
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Enter Your Password" />
+
+                <input type="submit" value="Login" class="btn">
+                <p>Haven't signed up yet?</p>
+                <a href="{% url 'register' %}" class="btn">Sign Up</a>
+            {% else %}
+                {% for field in form %}
+                    <label for="{{field.id_for_label}}">{{field.label}}</label>
+                    {{field}}
+                {% endfor %}
+                <button type="submit" class="btn">Register</button>
+                <p>Already signed up?</p>
+                <a href="{% url 'login' %}" class="btn">Login</a>
+            {% endif %}
+        </form>
+    </div>
+</body>
+
+
+{% endblock content %}

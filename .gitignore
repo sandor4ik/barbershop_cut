@@ -1,0 +1,5 @@
+.env
+backup.sql
+data.json
+db.sqlite3
+/data

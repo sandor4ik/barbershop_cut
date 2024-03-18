@@ -1,0 +1,64 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<head>
+    <style>
+        .booking-info-container {
+            border: 1px solid #ccc;
+            padding: 20px;
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: center;
+            font-family: 'Alegreya', sans-serif; 
+            font-weight: bold;
+        }
+
+        .book-button {
+            background-color: #000000;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-family: 'Alegreya', sans-serif; 
+            font-weight: bold;
+        }
+
+        .book-button:hover {
+            background-color: #696969;
+        }
+    </style>
+</head>
+<body>
+    <div class="booking-info-container">
+        <h1>Your appointment:</h1>
+
+        <h2>Barbershop:</h2>
+        <p>{{ request.session.selected_barbershop }}</p>
+
+        <h2>Your Barber:</h2>
+        <p>{{ request.session.selected_barber }}</p>
+
+        <h2>Your service:</h2>
+        <p>
+            Service: {{ request.session.selected_service.name }}<br>
+            Service cost: ${{ request.session.selected_service.price }}<br>
+        </p>
+
+        <h2>Selected date:</h2>
+        <p>{{ request.session.selected_date }}</p>
+
+        <h2>Selected time:</h2>
+        <p>{{ request.session.selected_time }}</p>
+
+        <form method="post" action="{% url 'save_appointment' %}">
+            {% csrf_token %}
+
+            <button type="submit" class="book-button">Book</button>
+        </form>
+    </div>
+</body>
+
+{% endblock content %}

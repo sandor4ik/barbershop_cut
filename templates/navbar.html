@@ -1,0 +1,107 @@
+{% load static %}
+
+<head>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #2e2e2e;
+            color: #fff; 
+            text-align: center;
+            padding: 35px 0; 
+            display: flex;
+            justify-content: space-between;
+            align-items: center; 
+        }
+        .navbar h1 {
+            font-size: 60px; 
+            margin: 0; 
+            color: white; 
+            font-family: 'Old English Text MT', serif; 
+            font-weight: bold; 
+        }
+        .navbar-links {
+            display: flex;
+            align-items: center; 
+        }
+        .navbar a {
+            text-decoration: none;
+            color: #ccc; 
+            margin: 0 20px;
+            transition: color 0.3s; 
+            font-family: 'Alegreya', serif; 
+            font-weight: bold; 
+            font-size: 30px; 
+        }
+        .navbar a:hover {
+            color: #fff; 
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar a.active {
+            color: #fff; 
+            text-decoration: underline;
+        }
+
+        .other-links {
+            text-decoration: none;
+            color: #ccc; 
+            transition: color 0.3s; 
+            font-family: 'Alegreya', serif; 
+            font-weight: bold; 
+            font-size: 30px;
+        }
+
+        .other-links a.active {
+            color: #fff; 
+            text-decoration: underline;
+        }
+        
+        .other-links:hover {
+            color: #fff; 
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="container">
+
+            <a href="/">
+                <h1>Cutler</h1>
+            </a>
+
+            <div class="navbar-links">
+                <a href="/" {% if request.path == '/'%} class="active" {% endif %}>Home</a>
+                <a href="{% url 'products' %}" {% if '/products/' in request.path %} class="active" {% endif %}>Products</a>
+                <a href="{% url 'book' %}" {% if '/book/' in request.path %} class="active" {% endif %}>Book</a>
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'customer-account' user.id %}" {% if '/customer-account/' in request.path %} class="active" {% endif %}>Account</a>
+                    <a href="{% url 'logout' %}" {% if '/logout/' in request.path %} class="active" {% endif %}>Logout</a>
+                {% else %}
+                    <a href="{% url 'register' %}" {% if '/register/' in request.path %} class="active" {% endif %}>Register</a>
+                    <a href="{% url 'login' %}" {% if '/login/' in request.path %} class="active" {% endif %}>Login</a>
+                {% endif %}
+            </div>
+            <div class="container">
+                {% if '/products/' in request.path %}
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'cart_page' %}" {% if '/cart' in request.path %} class="active other-links" {% endif %}>My cart</a>
+                        <a href="{% url 'orders_page' customer_id=user.id %}" {% if '/orders' in request.path %} class="active other-links" {% endif %}>My orders</a>
+                    {% endif %}
+                {% elif '/book/' in request.path %}
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'appointments_page' full_name=user.full_name %}" {% if '/appointments_page' in request.path %} class="active other-links" {% endif %}>My appointments</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>

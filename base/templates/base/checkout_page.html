@@ -1,0 +1,167 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<head>
+    <style>
+        body {
+        font-family: 'Alegreya', serif; 
+        font-weight: bold; 
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+        font-size: 22px;
+    }
+
+    .row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20px;
+    }
+
+    .col-lg-6 {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 50px;
+        margin-right: 40px;
+    }
+
+    #form-wrapper {
+        text-align: center;
+    }
+
+    #form {
+        margin-top: 20px;
+    }
+
+    .form-field {
+        margin: 10px 0;
+    }
+
+    input.form-control {
+        width: 85%;
+        padding: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    #form-button {
+        background-color: #343a40;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .col-lg-6:nth-child(2) {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 20px;
+        text-align: center;
+        margin-right: 40px;
+    }
+
+    .btn-outline-dark {
+        background-color: #343a40;
+        color: #fff;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        display: inline-block;
+        margin-bottom: 20px;
+    }
+
+    .cart-row {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+    }
+
+    .row-image {
+        max-width: 50px;
+        max-height: 50px;
+        margin-right: 10px;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="box-element" id="form-wrapper">
+                <form id="form">
+                    <div id="user-info">
+                        <div class="form-field">
+                            <input required class="form-control" type="text" name="name" placeholder="Your full name..">
+                        </div>
+                        <div class="form-field">
+                            <input required class="form-control" type="email" name="email" placeholder="Your email..">
+                        </div>
+                    </div>
+                    <hr>
+                    <input id="form-button" class="btn btn-success btn-block" type="submit" value="Complete order">
+                </form>
+            </div>
+        </div>
+    
+        <div class="col-lg-6">
+            <div class="box-element">
+                <a  class="btn btn-outline-dark" href="{% url 'cart_page' %}">&#x2190; Back to Cart</a>
+                <hr>
+                <h3>Order Summary</h3>
+                <hr>
+                {% for item in items %}
+                    <div class="cart-row">
+                        <div style="flex:2"><img class="row-image" src="{{ item.product.image.url }}"></div>
+                        <div style="flex:2"><p>{{ item.product.name }}</p></div>
+                        <div style="flex:1"><p>{{ item.product.price }}</p></div>
+                        <div style="flex:1"><p>x{{ item.quantity }}</p></div>
+                    </div>
+                {% endfor %}
+                <h5>Items:   {{order.get_cart_items}}</h5>
+                <h5>Total:   ${{order.get_cart_total}}</h5>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    var total = '{{ order.get_cart_total }}'
+
+    document.getElementById('form-button').addEventListener('click', function(e){
+        submitFormData()
+    })
+
+    function submitFormData(){
+        console.log('Data submited')
+
+        var userFormData = {
+            'name':null,
+            'email':null,
+            'total':total,
+        }
+
+        var url = '/process_order/'
+        fetch(url,{
+            method: 'POST',
+            headers:{
+                'Content-Type':'application/json',
+                'X-CSRFToken':csrftoken,
+            },
+            body:JSON.stringify({'form':userFormData})
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log('Success:', data);
+            alert('Order completed');
+            window.location.href = "{% url 'products' %}"
+        })
+    }
+
+</script>
+
+{% endblock content %}

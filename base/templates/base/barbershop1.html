@@ -1,0 +1,78 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<style>
+    .barber-list {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    .title {
+        text-align: center;
+        font-family: 'Alegreya', sans-serif; 
+        font-weight: bold;
+    }
+
+    .barber {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    .barber img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin-right: 20px;
+        object-fit: cover;
+    }
+    .barber-info {
+        flex: 1;
+    }
+    .barber-name {
+        font-size: 18px;
+        font-weight: bold;
+        font-family: 'Alegreya', sans-serif; 
+        font-weight: bold;
+        font-size: 25px;
+    }
+    .next-button {
+        padding: 10px 20px;
+        background-color: #000;
+        color: #fff;
+        text-align: center;
+        text-decoration: none;
+        font-family: 'Alegreya', sans-serif; 
+        font-weight: bold;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .next-button:hover {
+        background-color: #333;
+    }
+</style>
+
+<div class="barber-list">
+    <div class="title">
+        <h1>Choose barber</h1>
+    </div>
+    {% for barber in barbers %}
+        <div class="barber">
+            <img src="{{ barber.photo.url }}" alt="{{ barber.name }}">
+            <div class="barber-info">
+                <div class="barber-name">{{ barber.name }}</div>
+            </div>
+            <a href="{% url 'services' selected_barber=barber.name %}" class="next-button">Next</a>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock content %}

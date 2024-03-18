@@ -1,0 +1,84 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<head>
+    <style>
+        body {
+            font-family: 'Alegreya', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+        }
+
+        .product-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px;
+            display: flex;
+            align-items: center;
+        }
+
+        .product-image {
+            max-width: 500px;
+            height: auto;
+            margin-right: 20px;
+        }
+
+        .product-info {
+            text-align: left;
+        }
+
+        .product-name {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-weight: bold;
+            font-size: 20px;
+            color: #000000;
+        }
+
+        .product-description {
+            font-size: 20px;
+            margin-top: 10px;
+        }
+
+        .cart-button {
+        padding: 10px 20px;
+        background-color: #000;
+        color: #fff;
+        text-align: center;
+        text-decoration: none;
+        font-family: 'Alegreya', sans-serif; 
+        font-weight: bold;
+        font-size: 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .cart-button:hover {
+        background-color: #333;
+    }
+    </style>
+</head>
+<body>
+    <div class="product-container">
+        <img class="product-image" src="{{ product.image.url }}" alt="{{ product.name }}">
+        <div class="product-info">
+            <h1 class="product-name">{{ product.name }}</h1>
+            <p class="product-price">${{ product.price }}</p>
+            <p class="product-description">{{ product.description }}</p>
+            {% if user.is_authenticated %}
+                <button data-product={{product.id}} data-action="add" class="cart-button update-cart">Add to cart</button>
+            {% else %}    
+                <h2>Please register/login to access your cart </h2>
+            {% endif %}
+        </div>
+    </div>
+</body>
+
+{% endblock content %}

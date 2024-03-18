@@ -1,0 +1,79 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<head>
+    <style>
+        body {
+            font-family: 'Alegreya', sans-serif; 
+            font-weight: bold;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #000000;
+            text-decoration: underline;
+        }
+
+        .order {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #fff;
+        }
+
+        .order h2 {
+            font-size: 18px;
+            color: #000000;
+            margin: 0;
+        }
+
+        .order p {
+            font-size: 14px;
+            color: #000000;
+            margin: 5px 0;
+        }
+
+        .product-container {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .product-image {
+            max-width: 100px;
+            max-height: 100px;
+            margin-right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Your orders</h1>
+        {% for order in orders %}
+            {% if order.complete == True %}
+                <div class="order">
+                    <h2>Order №{{ order.id }}</h2>
+                    <p>Ordered date: {{ order.date_ordered }}</p>
+                    <p>Order price: ${{ order.get_cart_total }}</p>
+                    <p>Order quantity: {{ order.get_cart_items }}</p>
+                    {% for order_item in order.orderitem_set.all %}
+                        <div class="product-container">
+                            <img src="{{ order_item.product.image.url }}" alt="{{ order_item.product.name }}" class="product-image">
+                            <div class="product-info">
+                                <p>Product: {{ order_item.product.name }}</p>
+                                <p>Quantity: {{ order_item.quantity }}</p>
+                                <p>Price: ${{ order_item.get_total }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</body>
+
+{% endblock content %}

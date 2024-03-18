@@ -1,0 +1,81 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<head>
+    <head>
+        <style>
+        .account-change-form {
+            font-family: 'Alegreya', sans-serif;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .form-field {
+            margin-bottom: 20px;
+        }
+
+        .field-label {
+            display: block;
+            font-weight: bold;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .btn {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #555;
+        }
+
+        .password-link {
+            margin-top: 15px;
+        }
+
+        .password-link a {
+            text-decoration: none;
+        }
+    </style>
+    </head>
+</head>
+
+<body>
+    <div class="account-change-form">
+        <form class="form" method="POST" action="{% url 'customer-account' pk=user.id %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            {% for field in form %}
+            <div class="form-field">
+                <label for="{{field.id_for_label}}" class="field-label">{{field.label}}</label>
+                {{field}}
+            </div>
+            {% endfor %}
+    
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Update Your Info</button>
+            </div>
+        </form>
+        <div class="password-link">
+            <a href="{% url 'change-password' pk=user.id %}" class="btn">Update Your Password</a>
+        </div>
+    </div>
+</body>
+
+{% endblock content %}

@@ -1,0 +1,100 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<head>
+
+    <style>
+        h1 {
+            text-align: center;
+            font-family: 'Alegreya', sans-serif;
+            font-weight: bold;
+        }
+
+        /* Стили для плиток времени */
+        .time-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); 
+            grid-auto-rows: 60px; 
+            gap: 10px; 
+            justify-content: center; 
+            align-content: center; 
+            position: absolute;
+            top: 80%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .time-tile {
+            width: 100px;
+            height: 50px;
+            border: 1px solid #ccc;
+            text-align: center;
+            line-height: 50px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 5px;
+            background-color: #ccc;
+            font-weight: bold;
+            font-family: 'Alegreya', sans-serif;
+        }
+
+        .busy-time {
+            background-color: red; /* Пример: красный цвет для выделения */
+            color: white; /* Пример: белый текст для лучшей видимости */
+            cursor: not-allowed; /* Пример: отображение значка "запрещено" при наведении */
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <h1>Choose time</h1>
+
+    <div class="time-grid" id="calendar">
+    </div>
+
+    <script>
+        // Function to generate times
+        function generateTimes(startTime, endTime, interval) {
+            const times = [];
+            let currentTime = new Date();
+            currentTime.setHours(startTime, 0, 0, 0);
+    
+            while (currentTime.getHours() < endTime) {
+                times.push(new Date(currentTime));
+                currentTime.setMinutes(currentTime.getMinutes() + interval);
+            }
+            return times;
+        }
+        const selectedDate = window.localStorage.getItem('selectedDate');
+    
+        // Function to handle time clicks and navigate to a new page
+        function onTimeClick(time) {
+            const options = { hour: 'numeric', minute: '2-digit' };
+            const formattedTime = time.toLocaleTimeString('en-US', options);
+            const nextPageUrl = '{% url "appointment_confirmation" %}?selectedTime=' + encodeURIComponent(formattedTime);
+            window.location.href = nextPageUrl;
+        }
+    
+        // Define the start and end times
+        const startTime = 10;
+        const endTime = 20;
+        const interval = 15;
+    
+        // Generate times and add them to the calendar
+        const calendar = document.getElementById('calendar');
+        const times = generateTimes(startTime, endTime, interval);
+        times.forEach(time => {
+            const timeTile = document.createElement('div');
+            timeTile.className = 'time-tile';
+            timeTile.textContent = time.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+            timeTile.onclick = () => onTimeClick(time);
+            calendar.appendChild(timeTile);
+        });
+    </script>
+
+</body>
+
+{% endblock content %}

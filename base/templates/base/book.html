@@ -1,0 +1,66 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<head>
+    <style>
+        .title {
+            text-align: center;
+            font-family: 'Alegreya', sans-serif; 
+            font-weight: bold; 
+            font-size: 20px;
+        }
+
+        .barbershops {
+            text-align: center;
+        }
+
+        .barbershop {
+            text-align: center;
+            display: inline-block;
+            margin: 20px;
+            font-family: 'Alegreya', sans-serif; 
+            font-weight: bold; 
+            font-size: 20px;
+            border: 1px solid gray;
+            padding: 10px;
+        }
+
+        .barbershop p {
+            color: black;
+            margin: 10px 0;
+        }
+
+        .barbershop-image {
+            width: 300px;
+            height: 200px;
+            border: 1px solid gray;
+        }
+
+        .barbershop:hover p {
+            color: black;
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div>
+        <div class="title">
+            <h2>Choose a shop</h2>
+        </div>
+        {% for barbershop in barbershops %}
+            <div class="barbershops">
+                <div class="barbershop">
+                    <a href="{% url 'barbershop' barbershop.name %}" style="text-decoration: none;">
+                        <img class="barbershop-image" src="{{ barbershop.photo.url }}" alt="{{ barbershop.name }}">
+                        <p>{{ barbershop.name }}</p>
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+
+{% endblock content %}
